@@ -13,6 +13,5 @@ export class RegisterPage {
     await this.newUserPasswordInput.fill(passwordId);
     await this.registerButton.waitFor();
     await this.registerButton.click();
-    await this.page.pause();
   };
 }

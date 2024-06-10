@@ -5,6 +5,7 @@ import { Checkout } from "../page-objects/Checkout";
 import { LoginPage } from "../page-objects/LoginPage.js";
 import { RegisterPage } from "../page-objects/RegisterPage.js";
 import { DeliveryDetailsPage } from "../page-objects/DeliveryDetailsPage.js";
+import { deliveryDetails as userAddress} from "./../data/deliveryDetail.js"
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -31,6 +32,11 @@ test.only("New user full end-to-end test journey", async ({ page }) => {
   const registerPage = new RegisterPage(page);
   await registerPage.signUpAsNewUser(emailId, passwordId);
 
-  const deliveryDetails = new DeliveryDetailsPage(page)
-  deliveryDetails.fillDetails();
+  const deliveryDetails = new DeliveryDetailsPage(page);
+   await deliveryDetails.fillDetails(userAddress);
+   await deliveryDetails.saveDetails()
+
+  //  getByRole("button", { name: "Save address for next time" });
+  
+// deliveryDetails.pause();
 });
