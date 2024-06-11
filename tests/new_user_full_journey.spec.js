@@ -35,8 +35,5 @@ test.only("New user full end-to-end test journey", async ({ page }) => {
   const deliveryDetails = new DeliveryDetailsPage(page);
    await deliveryDetails.fillDetails(userAddress);
    await deliveryDetails.saveDetails()
-
-  //  getByRole("button", { name: "Save address for next time" });
-  
-// deliveryDetails.pause();
+   await deliveryDetails.continueToGetPayment()
 });
