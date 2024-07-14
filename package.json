@@ -1,17 +1,26 @@
+
+
 {
-  "name": "playwright-course",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.2.0",
+    "main": "index.js",
   "scripts": {
     "test": "playwright test --headed"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@playwright/test": "^1.44.1"
-  },
+  "configurations": [
+    {
+      "name": "Playwright Test",
+      "type": "pwa-node",
+      "request": "launch",
+      "program": "${workspaceFolder}/tests/example.test.js",
+      "args": ["--project=chromium"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PWDEBUG": "1"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ],
   "dependencies": {
     "uuid": "^9.0.0"
   }

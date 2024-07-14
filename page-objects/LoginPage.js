@@ -15,8 +15,6 @@ export class LoginPage {
     await this.submitButtons.first().waitFor();
     await this.submitButtons.first().click();
     await this.page.waitForURL("/delivery-details", {timeout: 3000});
-     
-    await this.page.pause()
   }
 
   moveToSignUp = async () => {
