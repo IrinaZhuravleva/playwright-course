@@ -1,8 +1,6 @@
-
-
 {
   "version": "0.2.0",
-    "main": "index.js",
+  "main": "index.js",
   "scripts": {
     "test": "playwright test --headed"
   },
@@ -12,7 +10,9 @@
       "type": "pwa-node",
       "request": "launch",
       "program": "${workspaceFolder}/tests/example.test.js",
-      "args": ["--project=chromium"],
+      "args": [
+        "--project=chromium"
+      ],
       "cwd": "${workspaceFolder}",
       "env": {
         "PWDEBUG": "1"
@@ -22,6 +22,12 @@
     }
   ],
   "dependencies": {
+    "dotenv": "^16.0.3",
+    "node-fetch": "^2.7.0",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.1",
+    "@types/node": "^20.14.10"
   }
 }

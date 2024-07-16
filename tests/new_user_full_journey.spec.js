@@ -7,10 +7,11 @@ import { RegisterPage } from "../page-objects/RegisterPage.js";
 import { DeliveryDetailsPage } from "../page-objects/DeliveryDetailsPage.js";
 import { deliveryDetails as userAddress} from "./../data/deliveryDetail.js"
 import { PaymentPage } from "../page-objects/PaymentPage.js"
+import { paymentDetails } from "../data/paymentDetails.js";
 
 import { v4 as uuidv4 } from "uuid";
 
-test.only("New user full end-to-end test journey", async ({ page }) => {
+test("New user full end-to-end test journey", async ({ page }) => {
   const productsPage = new ProductsPage(page);
   const login = new LoginPage(page);
 
@@ -39,4 +40,6 @@ test.only("New user full end-to-end test journey", async ({ page }) => {
 
    const paymentPage = new PaymentPage(page)
    await paymentPage.activateDiscount()
+   await paymentPage.fillPaymentDetails(paymentDetails)
+   await paymentPage.completePayment()
 });

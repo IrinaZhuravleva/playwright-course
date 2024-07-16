@@ -1,50 +1,55 @@
 import { expect } from '@playwright/test';
-import convertStringToNumber from "../utilities.js";
 
 export class PaymentPage {
   constructor(page) {
     this.page = page;
-    this.discountCode = page.frameLocator(
-      '[data-qa="active-discount-container"]'
-    ).locator('[data-qa="discount-code"]');
+    this.discountCode = page
+      .frameLocator('[data-qa="active-discount-container"]')
+      .locator('[data-qa="discount-code"]');
     this.discountCodeInput = page.getByPlaceholder("Discount code");
     this.submitDiscount = page.getByRole("button", { name: "Submit discount" });
     this.discountActivatedText = page.locator(
       '[data-qa="discount-active-message"]'
-    )
+    );
     this.totalValue = page.locator('[data-qa="total-value"]');
-    this.totalValueWithDiscount = page.locator('[data-qa="total-with-discount-value"]');
+    this.totalValueWithDiscount = page.locator(
+      '[data-qa="total-with-discount-value"]'
+    );
+    this.creditCardOwner = page.locator('[data-qa="credit-card-owner"]');
+    this.validUntil = page.locator('[data-qa="valid-until"]');
+    this.creditCardNumber = page.locator('[data-qa="credit-card-number"]');
+    this.payButton = page.locator('[data-qa="pay-button"]');
+    this.creditCardCvc = page.locator('[data-qa="credit-card-cvc"]');
   }
-  activateDiscount = async() => {
+  activateDiscount = async () => {
+    // await page.pause()
     await this.discountCode.waitFor();
     const code = await this.discountCode.innerText();
 
-    // Option 1
-    await this.discountCodeInput.fill(code)
-    // expect(await this.discountCodeInput).toContainText(code);
+    await this.discountCodeInput.fill(code);
     await expect(this.discountCodeInput).toHaveValue(code);
-
-    // Option 2
-    // await this.discountCodeInput.focus();
-    // await this.page.keyboard.type(code, {delay: 1000})
-    // expect(await this.discountCodeInput.inputValue()).toBe(code);
-   
     await this.submitDiscount.waitFor();
-    await this.submitDiscount.click()
+    await this.submitDiscount.click();
     await expect(this.discountActivatedText).toHaveText("Discount activated!");
-    // console.log(await this.totalValueWithDiscount.innerText())
-   
 
     const totalValueNumber = Number(
       (await this.totalValue.innerText()).replace("$", "")
     );
-    // console.log(totalValueNumber)
     const totalValueWithDiscountNumber = Number(
       (await this.totalValueWithDiscount.innerText()).replace("$", "")
     );
-    // const totalValueWithDiscountNumber = convertStringToNumber(this.totalValueWithDiscount)
-    // const totalValueNumber = convertStringToNumber(this.totalValue)
     expect(totalValueNumber).toBeGreaterThan(totalValueWithDiscountNumber);
-  
-  }
+  };
+
+  fillPaymentDetails = async (paymentDetails) => {
+    await this.creditCardOwner.fill(paymentDetails.owner);
+    await this.creditCardCvc.fill(paymentDetails.cvc);
+    await this.creditCardNumber.fill(paymentDetails.number);
+    await this.validUntil.fill(paymentDetails.validUntil);
+  };
+
+  completePayment = async () => {
+    await this.payButton.click();
+    await this.page.waitForURL(/\/thank-you/, { timeout: 3000 });
+  };
 }
