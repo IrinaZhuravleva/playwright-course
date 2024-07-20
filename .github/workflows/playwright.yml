@@ -19,4 +19,4 @@ jobs:
             echo "Install dependencies"
             npm ci
             echo "Run playwright tests"
-            npm run
+            npm test
