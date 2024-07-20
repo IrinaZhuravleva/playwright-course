@@ -1,28 +1,22 @@
 name: Playwright Tests
 on: 
   push: 
-    branches: 
-      - main
-
+    branches: [ main ]
 jobs:
   playwrighttests:
     runs-on: ubuntu-latest
     container: 
-      image: mcr.microsoft.com/playwright:v1.45.1-focal
-      env:
-        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        image: mcr.microsoft.com/playwright:v1.45.1-focal
+        env:
+            ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
     steps: 
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: |
-          npm ci
-
-      - name: Verify Playwright version
-        run: |
-          npx playwright --version
-
-      - name: Run tests in headless mode
-        run: |
-          npx playwright test --headless
+      - name: Run tests
+        run: | 
+            echo "Start the shopping store app"
+            chmod +x ./shopping-store-linux-arm64 &
+            echo "Install dependencies"
+            npm ci
+            echo "Run playwright tests"
+            npm run
